@@ -5,9 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "scripts": { 
+  "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build --output public",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

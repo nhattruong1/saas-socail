@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'node:18'
-            args '-u 0:0 -v /temp:root/.cache'
+            image 'node:lts-bullseye-slim'
+            args '-p 3000:3000'
         }
     }
 
@@ -29,10 +29,10 @@ pipeline {
                 junit 'test-results/*.xml'
             }
         }
-        stage('Deploy') {
-            steps {
-                sh '<your-deployment-command>'
-            }
-        }
+//         stage('Deploy') {
+//             steps {
+//                 sh '<your-deployment-command>'
+//             }
+//         }
     }
 }

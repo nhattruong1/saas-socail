@@ -5,7 +5,7 @@ pipeline {
      DOCKER_IMAGE = "nhattruong1/saas-socail"
     }
     tools {
-        nodejs: "18.10.0"
+        nodejs "18.10.0"
     }
     stages {
         stage('Install Dependencies') {

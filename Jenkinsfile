@@ -1,13 +1,11 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14'
-            args '-p 3000:3000'
-        }
-    }
+    agent none
 
     environment {
      DOCKER_IMAGE = "nhattruong1/saas-socail"
+    }
+    tools {
+        nodejs: "18.10.0"
     }
     stages {
         stage('Install Dependencies') {

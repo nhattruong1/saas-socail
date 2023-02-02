@@ -23,7 +23,7 @@ pipeline {
         stage('Build Application') {
             steps {
                 sh 'npm run build'
-                withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
+                withDockerRegistry(credentialsId: 'dockerhub', url: '') {
                     sh 'docker build -t saas-social:latest .'
                     sh 'docker tag saas-social:latest truongvonhat/saas-social'
                     sh 'docker push truongvonhat/saas-social'

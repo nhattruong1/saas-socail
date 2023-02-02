@@ -25,6 +25,7 @@ pipeline {
                 sh 'npm run build'
                 withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v2/') {
                     sh 'docker build -t saas-social:latest .'
+                    sh 'docker tag saas-social:lastest truongvonhat/saas-social'
                     sh 'docker push truongvonhat/saas-social'
                 }
             }

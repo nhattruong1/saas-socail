@@ -10,7 +10,7 @@ COPY package*.json ./
 COPY . .
 
 # Expose port 3000 to the host system
-EXPOSE 3000
+EXPOSE 8000
 
 # Set the command to run when the container starts
 CMD [ "npm", "start" ]

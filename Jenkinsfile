@@ -30,7 +30,7 @@ pipeline {
 //                 sh 'npm test'
 //                 junit 'test-results/*.xml'
 //             }
-        }
+//         }
         stage('Deploy') {
             steps {
                 sshagent(['e6dae544-3900-462e-8511-e86dd1ba821c']) {

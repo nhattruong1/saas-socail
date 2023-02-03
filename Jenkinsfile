@@ -10,25 +10,9 @@ pipeline {
     stages {
         stage('test'){
             steps {
-//                 sh 'docker login -u  $DOCKER_CREDENTIALS_USR -p  $DOCKER_CREDENTIALS_PSW'
-                sshPublisher(publishers: [
-                    sshPublisherDesc(configName: 'social-server', sshCredentials: [encryptedPassphrase: '{AQAAABAAAAAQ8MYD+G1WDOXb3fI1ExeWkn2um8YLLHb7QHv+4r+HWns=}', key: '', keyPath: '', username: 'root'],
-                    transfers: [],
-                    usePromotionTimestamp: false,
-                    useWorkspaceInPromotion: false,
-                    verbose: false
-                    )]
-                )
-
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'social-server',
-                    transfers: [
-                        sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker ', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')],
-                            usePromotionTimestamp: false,
-                            useWorkspaceInPromotion: false,
-                            verbose: false
-                        )
-                    ]
-                )
+                sshagent(['b880f143-ffb9-4a06-983d-3a922866ecdf']) {
+                sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker ps'
+             }
             }
         }
 //         stage('Install Dependencies') {

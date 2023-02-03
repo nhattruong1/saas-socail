@@ -32,14 +32,16 @@ pipeline {
 //             }
 //         }
         stage('Deploy') {
-            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-              sshPublisher(publishers: [
-                sshPublisherDesc(configName: 'my-server', transfers: [
-                  sshTransfer(execCommand: "docker login -u $USERNAME -p $PASSWORD"),
-                  sshTransfer(execCommand: 'docker pull truongvonhat/saas-social:latest'),
-                  sshTransfer(execCommand: 'docker run --name sass-service -d truongvonhat/saas-social:latest')
-                ])
-              ])
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                  sshPublisher(publishers: [
+                    sshPublisherDesc(configName: 'my-server', transfers: [
+                      sshTransfer(execCommand: "docker login -u $USERNAME -p $PASSWORD"),
+                      sshTransfer(execCommand: 'docker pull truongvonhat/saas-social:latest'),
+                      sshTransfer(execCommand: 'docker run --name sass-service -d truongvonhat/saas-social:latest')
+                    ])
+                  ])
+                }
             }
         }
     }

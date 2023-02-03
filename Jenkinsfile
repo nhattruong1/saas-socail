@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('test'){
             steps {
-                sshagent(['b880f143-ffb9-4a06-983d-3a922866ecdf']) {
+                sshagent(['ssh-social-1']) {
                 sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker ps'
              }
             }

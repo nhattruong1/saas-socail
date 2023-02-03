@@ -1,16 +1,14 @@
-FROM node:18-alpine
+# Use a small, official Node.js image as the base image
+FROM node:14-alpine
 
-# Set the working directory in the image
+# Set the working directory
 WORKDIR /app
 
 # Expose port 8000 to the host system
 EXPOSE 8000
 
-# Set the command to run when the container starts
-CMD [ "npm", "start" ]
+# Copy the rest of the application code to the container
+COPY . .
 
-# Copy the package.json and package-lock.json files to the image
-COPY package*.json ./
-
-# Copy the rest of the application code to the image
-COPY . /app
+# Set the default command to run when the container starts
+CMD ["npm", "start"]

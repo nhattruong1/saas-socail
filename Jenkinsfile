@@ -37,8 +37,8 @@ pipeline {
                 sshagent(['ssh-key']) {
                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW'
                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker pull truongvonhat/saas-social:latest'
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker stop saas-service || true && docker rm saas-service || true'
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker run -p 443:8000 --name saas-service -d truongvonhat/saas-social:latest'
+                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker-compose down'
+                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker-compose up -d'
                 }
             }
         }

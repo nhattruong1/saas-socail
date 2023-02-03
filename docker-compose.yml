@@ -1,0 +1,10 @@
+version: '3'
+services:
+  saas-service:
+    image: truongvonhat/saas-social:latest
+    container_name: saas-service
+    ports:
+      - "443:8000"
+    restart: always
+    environment:
+      - NODE_ENV=production

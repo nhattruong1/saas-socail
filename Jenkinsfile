@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('test'){
             steps {
-                sh 'docker login -u  $DOCKER_CREDENTIALS -p  $DOCKER_CREDENTIALS_PSW'
+                sh 'docker login -u  $DOCKER_CREDENTIALS_USR -p  $DOCKER_CREDENTIALS_PSW'
             }
         }
 //         stage('Install Dependencies') {

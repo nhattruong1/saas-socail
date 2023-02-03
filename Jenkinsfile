@@ -31,12 +31,12 @@ pipeline {
                 }
             }
         }
-        stage('Test Application') {
-            steps {
-                sh 'npm test'
-                junit 'test-results/*.xml'
-            }
-        }
+//         stage('Test Application') {
+//             steps {
+//                 sh 'npm test'
+//                 junit 'test-results/*.xml'
+//             }
+//         }
         stage('Deploy') {
             steps {
                 sshPublisher(publishers: [

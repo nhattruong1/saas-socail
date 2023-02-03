@@ -34,11 +34,21 @@ pipeline {
 //         }
         stage('Deploy') {
             steps {
+//                 sshagent(['ssh-key']) {
+//                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW'
+//                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker pull truongvonhat/saas-social:latest'
+//                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 cd /var/deploy;docker-compose down'
+//                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 cd /var/deploy;docker-compose up -d'
+//                 }
                 sshagent(['ssh-key']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW'
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker pull truongvonhat/saas-social:latest'
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 cd /var/deploy;docker-compose down'
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 cd /var/deploy;docker-compose up -d'
+                    sh '''
+                        docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW
+                        docker pull truongvonhat/saas-social:latest
+                        docker-compose up -d
+                        cd /var/deploy
+                        docker-compose down
+                        docker-compose up -d
+                    '''
                 }
             }
         }

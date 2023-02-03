@@ -9,7 +9,9 @@ pipeline {
     }
     stages {
         stage('test'){
-            sh 'echo $DOCKER_CREDENTIALS'
+            steps {
+                sh 'echo $DOCKER_CREDENTIALS'
+            }
         }
 //         stage('Install Dependencies') {
 //             when {

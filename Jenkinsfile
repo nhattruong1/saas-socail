@@ -8,47 +8,45 @@ pipeline {
         DOCKER_CREDENTIALS = credentials('docker-hub-account')
     }
     stages {
-        stage('test'){
+//         stage('test'){
+//             steps {
+//                 sh 'docker login -u  $DOCKER_CREDENTIALS_USR -p  $DOCKER_CREDENTIALS_PSW'
+//             }
+//         }
+        stage('Install Dependencies') {
+            when {
+                changeset 'package.json'
+            }
             steps {
-                sh 'docker login -u  $DOCKER_CREDENTIALS_USR -p  $DOCKER_CREDENTIALS_PSW'
+                sh 'npm install'
             }
         }
-//         stage('Install Dependencies') {
-//             when {
-//                 changeset 'package.json'
-//             }
-//             steps {
-//                 sh 'npm install'
-//             }
-//         }
-//         stage('Build Application') {
-//             steps {
-//                 sh 'npm run build'
-//                 withDockerRegistry(credentialsId: 'dockerhub', url: '') {
-//                     sh 'docker build -t saas-social:latest .'
-//                     sh 'docker tag saas-social:latest truongvonhat/saas-social'
-//                     sh 'docker push truongvonhat/saas-social'
-//                 }
-//             }
-//         }
-//         stage('Test Application') {
-//             steps {
-//                 sh 'npm test'
-//                 junit 'test-results/*.xml'
-//             }
-//         }
-//         stage('Deploy') {
-//             steps {
-//                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-//                   sshPublisher(publishers: [
-//                     sshPublisherDesc(configName: 'social-server', transfers: [
-//                       sshTransfer(execCommand: 'docker login -u $USERNAME -p $PASSWORD'),
-//                       sshTransfer(execCommand: 'docker pull truongvonhat/saas-social:latest'),
-//                       sshTransfer(execCommand: 'docker run --name sass-service -d truongvonhat/saas-social:latest')
-//                     ])
-//                   ])
-//                 }
-//             }
-//         }
+        stage('Build Application') {
+            steps {
+                sh 'npm run build'
+                withDockerRegistry(credentialsId: 'dockerhub', url: '') {
+                    sh 'docker build -t saas-social:latest .'
+                    sh 'docker tag saas-social:latest truongvonhat/saas-social'
+                    sh 'docker push truongvonhat/saas-social'
+                }
+            }
+        }
+        stage('Test Application') {
+            steps {
+                sh 'npm test'
+                junit 'test-results/*.xml'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sshPublisher(publishers: [
+                    sshPublisherDesc(configName: 'social-server', transfers: [
+                      sshTransfer(execCommand: 'docker login -u  $DOCKER_CREDENTIALS_USR -p  $DOCKER_CREDENTIALS_PSW'),
+                      sshTransfer(execCommand: 'docker pull truongvonhat/saas-social:latest'),
+                      sshTransfer(execCommand: 'docker run --name sass-service -d truongvonhat/saas-social:latest')
+                    ])
+                 ])
+            }
+        }
     }
 }

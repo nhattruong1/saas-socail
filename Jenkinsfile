@@ -35,7 +35,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(['ssh-key']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker login -u $DOCKER_CREDENTIALS -p $DOCKER_CREDENTIALS_PSW'
+                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW'
                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker stop saas-service'
                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker rm $(docker ps --filter status=exited -q)'
                     sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 docker pull truongvonhat/saas-social:latest'

@@ -40,12 +40,19 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshPublisher(publishers: [
-                    sshPublisherDesc(configName: 'social-server', transfers: [
-                      sshTransfer(execCommand: 'docker login -u  $DOCKER_CREDENTIALS_USR -p  $DOCKER_CREDENTIALS_PSW'),
+                    sshPublisherDesc(configName: 'social-server', sshCredentials: [encryptedPassphrase: '{AQAAABAAAAAQ8MYD+G1WDOXb3fI1ExeWkn2um8YLLHb7QHv+4r+HWns=}', key: '', keyPath: '', username: 'root'],
+                    transfers: [
+                      sshTransfer(execCommand: 'docker login -u $USERNAME -p $PASSWORD'),
+                      sshTransfer(execCommand: 'docker stop saas-service'),
+                      sshTransfer(execCommand: 'docker rm $(docker ps --filter status=exited -q)'),
                       sshTransfer(execCommand: 'docker pull truongvonhat/saas-social:latest'),
-                      sshTransfer(execCommand: 'docker run --name sass-service -d truongvonhat/saas-social:latest')
-                    ])
-                 ])
+                      sshTransfer(execCommand: 'docker run -p 443:8000 --name saas-service -d truongvonhat/saas-social:latest')
+                    ],
+                    usePromotionTimestamp: false,
+                    useWorkspaceInPromotion: false,
+                    verbose: false
+                    )]
+                )
             }
         }
     }

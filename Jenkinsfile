@@ -19,26 +19,36 @@ pipeline {
                     verbose: false
                     )]
                 )
+
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'social-server',
+                    transfers: [
+                        sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker ', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')],
+                            usePromotionTimestamp: false,
+                            useWorkspaceInPromotion: false,
+                            verbose: false
+                        )
+                    ]
+                )
             }
         }
-        stage('Install Dependencies') {
-            when {
-                changeset 'package.json'
-            }
-            steps {
-                sh 'npm install'
-            }
-        }
-        stage('Build Application') {
-            steps {
-                sh 'npm run build'
-                withDockerRegistry(credentialsId: 'dockerhub', url: '') {
-                    sh 'docker build -t saas-social:latest .'
-                    sh 'docker tag saas-social:latest truongvonhat/saas-social'
-                    sh 'docker push truongvonhat/saas-social'
-                }
-            }
-        }
+//         stage('Install Dependencies') {
+//             when {
+//                 changeset 'package.json'
+//             }
+//             steps {
+//                 sh 'npm install'
+//             }
+//         }
+//         stage('Build Application') {
+//             steps {
+//                 sh 'npm run build'
+//                 withDockerRegistry(credentialsId: 'dockerhub', url: '') {
+//                     sh 'docker build -t saas-social:latest .'
+//                     sh 'docker tag saas-social:latest truongvonhat/saas-social'
+//                     sh 'docker push truongvonhat/saas-social'
+//                 }
+//             }
+//         }
 //         stage('Test Application') {
 //             steps {
 //                 sh 'npm test'

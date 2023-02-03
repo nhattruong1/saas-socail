@@ -6,6 +6,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "nhattruong1/saas-socail"
         DOCKER_CREDENTIALS = credentials('docker-hub-account')
+        PATH = "$PATH:/usr/local/bin"
     }
     stages {
         stage('Install Dependencies') {

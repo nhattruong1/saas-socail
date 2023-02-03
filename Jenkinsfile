@@ -7,11 +7,6 @@ pipeline {
      DOCKER_IMAGE = "nhattruong1/saas-socail"
     }
     stages {
-        stage('Checking') {
-            steps {
-                sh 'npm version'
-            }
-        }
         stage('Install Dependencies') {
             when {
                 changeset 'package.json'
@@ -35,11 +30,13 @@ pipeline {
 //                 sh 'npm test'
 //                 junit 'test-results/*.xml'
 //             }
-//         }
-//         stage('Deploy') {
-//             steps {
-//                 sh '<your-deployment-command>'
-//             }
-//         }
+        }
+        stage('Deploy') {
+            steps {
+                sshagent(['e6dae544-3900-462e-8511-e86dd1ba821c']) {
+                    sh 'ls'
+                }
+            }
+        }
     }
 }

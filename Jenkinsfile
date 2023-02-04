@@ -11,9 +11,7 @@ pipeline {
         stage('Test Application') {
             steps {
                 sshagent(['ssh-key']) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 cd /var/deploy && ls
-                    '''
+                    sh 'ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 "cd /var/deploy && ls"'
                 }
             }
         }

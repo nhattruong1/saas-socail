@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sshagent(['ssh-key']) {
                     sh '''
-                        ls
+                        ssh -o StrictHostKeyChecking=no -l root 167.71.216.171 ls
                     '''
                 }
             }

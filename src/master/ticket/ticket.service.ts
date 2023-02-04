@@ -11,7 +11,7 @@ export class TicketService {
   }
 
   findAll() {
-    return `This action returns all okay`;
+    return `This action returns hehehehehe`;
   }
 
   findOne(id: number) {

@@ -3,6 +3,8 @@ services:
   saas-service:
     image: truongvonhat/saas-social:latest
     container_name: saas-service
+    env_file:
+      - .env
     ports:
       - "443:8000"
     restart: always

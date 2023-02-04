@@ -7,6 +7,9 @@ WORKDIR /app
 # Expose port 8000 to the host system
 EXPOSE 8000
 
+# Copy the package.json file to the container
+COPY package*.json ./
+
 # Install dependencies
 RUN npm install
 

@@ -1,5 +1,7 @@
 import { PrismaMasterService } from "../../../service/prisma/master.service";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class TicketStorage {
   constructor(private readonly prismaMaster: PrismaMasterService) {}
 

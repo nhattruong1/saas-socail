@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { CreateTicketDto } from "./dto/create-ticket.dto";
 import { UpdateTicketDto } from "./dto/update-ticket.dto";
 import { S3Client } from "../../../service/aws/s3.service";
-import * as process from "process";
 import { TicketStorage } from "./ticket.storage";
 
 @Injectable()

@@ -7,6 +7,6 @@ import { PrismaMasterService } from "../../../service/prisma/master.service";
 
 @Module({
   controllers: [TicketController],
-  providers: [TicketService, S3Client, TicketStorage, PrismaMasterService],
+  providers: [PrismaMasterService, TicketStorage, TicketService, S3Client],
 })
 export class TicketModule {}

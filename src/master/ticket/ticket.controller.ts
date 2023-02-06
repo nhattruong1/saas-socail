@@ -8,11 +8,14 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from "@nestjs/common";
 import { TicketService } from "./ticket.service";
 import { CreateTicketDto } from "./dto/create-ticket.dto";
 import { UpdateTicketDto } from "./dto/update-ticket.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { query } from "express";
+import { GetListTicketDto } from "./dto/get-ticket.dto";
 
 @Controller("master/ticket")
 export class TicketController {
@@ -30,8 +33,8 @@ export class TicketController {
   }
 
   @Get()
-  findAll() {
-    return this.ticketService.findAll();
+  findAll(@Query() params: GetListTicketDto) {
+    return this.ticketService.findAll(params);
   }
 
   @Get(":id")

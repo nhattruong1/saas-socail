@@ -3,6 +3,7 @@ import { CreateTicketDto } from "./dto/create-ticket.dto";
 import { UpdateTicketDto } from "./dto/update-ticket.dto";
 import { S3Client } from "../../../service/aws/s3.service";
 import { TicketStorage } from "./ticket.storage";
+import { GetListTicketDto } from "./dto/get-ticket.dto";
 
 @Injectable()
 export class TicketService {
@@ -11,8 +12,8 @@ export class TicketService {
     return "This action adds a new ticket";
   }
 
-  findAll() {
-    return this.ticketStorage.getTicket();
+  findAll(params: GetListTicketDto) {
+    return this.ticketStorage.getTicket(params);
   }
 
   findOne(id: number) {

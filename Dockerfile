@@ -13,6 +13,7 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+COPY prisma/ /prisma
 # generate prisma
 RUN npx prisma generate --schema prisma/schema.prisma
 

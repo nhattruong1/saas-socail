@@ -2,16 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { CreateTicketDto } from "./dto/create-ticket.dto";
 import { UpdateTicketDto } from "./dto/update-ticket.dto";
 import { S3Client } from "../../../service/aws/s3.service";
+import * as process from "process";
+import { TicketStorage } from "./ticket.storage";
 
 @Injectable()
 export class TicketService {
-  constructor(private readonly s3: S3Client) {}
+  constructor(private readonly s3: S3Client, private readonly ticketStorage: TicketStorage) {}
   create(createTicketDto: CreateTicketDto) {
     return "This action adds a new ticket";
   }
 
   findAll() {
-    return `This action returns hehehehehe`;
+    return this.ticketStorage.getTicket();
   }
 
   findOne(id: number) {

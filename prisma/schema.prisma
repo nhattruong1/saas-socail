@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum ColorTicketType {
+  RED
+  GREEN
+  BLUE
+  YELLOW
+}
+
+enum Currency {
+VND
+USD
+}
+
+enum TimeType{
+    ANNUAL
+    MONTHLY
+    WEEKLY
+    DAILY
+}
+
+enum PriorityType {
+  LOWEST
+  LOW
+  MEDIUM
+  HIGH
+  HIGHEST
+  CRITICAL
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  password       String
+  assigneeTicket ticket[] @relation("assigneeTicket")
+  reporterTicket ticket[] @relation("reporterTicket")
+  isActive       Boolean  @default(true)
+  isDelete       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model ticketStatus {
+  id          Int             @id @default(autoincrement())
+  code        String          @unique
+  name        String
+  description String?
+  colorName   ColorTicketType @default(BLUE)
+  isActive    Boolean         @default(true)
+  isDelete    Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  ticket      ticket[]
+}
+
+model ticketType {
+  id            Int          @id @default(autoincrement())
+  code          String       @unique
+  name          String
+  description   String?
+  haveChildType Boolean      @default(false)
+  parentId      Int?
+  parent        ticketType?  @relation("Parent", fields: [parentId], references: [id])
+  children      ticketType[] @relation("Parent")
+  deepLevel     Int          @default(0)
+  configTenant  Json?
+  isActive      Boolean      @default(true)
+  isDelete      Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model ticket {
+  id             Int           @id @default(autoincrement())
+  code           String        @unique
+  title          String
+  description    String
+  creator        String
+  creatorContact String
+  assigneeId     Int?
+  assignee       User?         @relation("assigneeTicket", fields: [assigneeId], references: [id])
+  reporterId     Int?
+  reporter       User?         @relation("reporterTicket", fields: [reporterId], references: [id])
+  statusId       Int?
+  status         ticketStatus? @relation(fields: [statusId], references: [id])
+  priority       PriorityType  @default(MEDIUM)
+  isActive       Boolean       @default(true)
+  isDelete       Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model pricing {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  price       Decimal
+  paymentTime TimeType
+  currency    Currency @default(VND)
+  description String
+  config      Json
+  isActive    Boolean  @default(true)
+  isDelete    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

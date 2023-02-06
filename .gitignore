@@ -34,3 +34,9 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 .vercel/*
+
+#prisma
+/prisma/migrations
+
+
+.env

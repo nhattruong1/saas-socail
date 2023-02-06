@@ -14,7 +14,7 @@ COPY package*.json ./
 RUN npm install
 
 # generate prisma
-RUN npx prisma generate
+RUN npx prisma generate --schema prisma/schema.prisma
 
 # Copy the rest of the application code to the container
 COPY . .

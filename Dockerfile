@@ -13,12 +13,12 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-COPY prisma/ /prisma
-# generate prisma
-RUN npx prisma generate --schema prisma/schema.prisma
 
 # Copy the rest of the application code to the container
 COPY . .
+
+# generate prisma
+RUN npx prisma generate
 
 # Set the default command to run when the container starts
 CMD ["npm", "start"]
